@@ -1,0 +1,3 @@
+*.json
+us_kline_cache.json
+.git/
