@@ -1,101 +1,228 @@
 <!DOCTYPE html>
 <html lang="zh-CN"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>每日行情分析日报0725</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>行情日报0726</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d1117">
+<link rel="manifest" href="./manifest.json">
+<meta name="apple-mobile-web-app-title" content="行情日报">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%230d1117'/><text x='256' y='300' text-anchor='middle' font-size='280' fill='%2358a6ff'>📈</text></svg>">
 <style>
+:root{--bg:#0d1117;--card:#161b22;--border:#21262d;--text:#e6edf3;--muted:#8b949e;
+  --blue:#58a6ff;--green:#3fb950;--red:#f85149;--yellow:#d2991d;--purple:#a371f7}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
-  background:#0f1419;color:#e6e6e6;line-height:1.6;padding:20px}
-.wrap{max-width:1120px;margin:0 auto}
-.date-picker{position:absolute;right:0;top:0}
-.date-picker input{background:#1a2029;border:1px solid #2a2f3a;color:#e6e6e6;
-  padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer}
-header{position:relative}
-h1{font-size:21px;font-weight:700}
-.meta{color:#8a93a6;font-size:13px;margin-top:4px}
-section{margin-bottom:28px}
-.sec-title{font-size:16px;font-weight:700;margin-bottom:12px;
-  padding-left:10px;border-left:4px solid #3b82f6}
-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
-th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #2a2f3a;
-  vertical-align:top;white-space:nowrap}
-th{color:#8a93a6;font-weight:600;font-size:12px}
-tr.vol-row td{padding:2px 10px 8px;font-size:11px;white-space:normal;
-  border-bottom:2px solid #2a2f3a;color:#8a93a6}
-.vol-row td span{margin-right:10px}
-td.ma-cell{white-space:normal;max-width:420px}
-.ma{font-size:11px;padding:2px 5px;border-radius:5px;margin-right:4px;
-  display:inline-block;margin-bottom:2px}
-.ma.up{background:rgba(239,68,68,.15);color:#f87171}
-.ma.down{background:rgba(34,197,94,.15);color:#4ade80}
-.badge{font-size:12px;font-weight:700;padding:2px 7px;border-radius:5px;display:inline-block}
-.pos{color:#f87171} td.pos{font-weight:600} .neg{color:#4ade80} td.neg{font-weight:600} .flat{color:#cbd5e1}
-td.today-up{color:#fbbf24;font-weight:700}
-td.today-down{color:#60a5fa;font-weight:700}
-.badge.pos{background:rgba(239,68,68,.15)} .badge.neg{background:rgba(34,197,94,.15)}
-.badge.flat{background:#2a2f3a}
-.fw{font-weight:600}
-.sector-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:720px){.sector-grid{grid-template-columns:1fr}}
-.analysis{background:#161b22;border:1px solid #2a2f3a;border-left:4px solid #3b82f6;
-  border-radius:10px;padding:12px 14px;margin-top:14px;font-size:14px;white-space:pre-line}
-.disclaimer{color:#6b7280;font-size:12px;margin-top:28px;border-top:1px solid #2a2f3a;padding-top:12px}
-.muted{color:#6b7280}
-.tbl-wrap{overflow-x:auto}
-.tbl-label{font-size:13px;font-weight:600;color:#8a93a6;margin-top:12px;margin-bottom:4px}
-.today-news{background:#161b22;border:1px solid #2a2f3a;border-left:4px solid #f59e0b;border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;line-height:1.8}
-.news-title{font-weight:700;font-size:14px;color:#fbbf24;margin-bottom:8px}
-.news-body{color:#cbd5e1}
-.news-body .cat{display:inline;font-weight:700;margin-right:2px;color:#f59e0b}
-.news-item{margin-bottom:10px;line-height:1.7}
+  background:var(--bg);color:var(--text);line-height:1.6;padding:16px 12px 80px;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto}
+
+/* ── 顶部 ── */
+header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+h1{font-size:20px;font-weight:800;letter-spacing:-.3px}
+h1 span{color:var(--muted);font-weight:400;font-size:14px;margin-left:8px}
+.meta{color:var(--muted);font-size:12px}
+#archiveDate{background:var(--card);border:1px solid var(--border);color:var(--text);
+  padding:5px 10px;border-radius:8px;font-size:12px;cursor:pointer}
+
+/* ── 仪表盘 ── */
+.dash{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-bottom:18px}
+.dash-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;
+  transition:border-color .2s}
+.dash-card:hover{border-color:#30363d}
+.dash-label{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px}
+.dash-val{font-size:26px;font-weight:800;line-height:1.2}
+.dash-sub{font-size:12px;color:var(--muted);margin-top:4px}
+.dash-card.highlight{border-color:#f87171;box-shadow:0 0 12px #f8717118}
+
+/* ── 今日要闻 ── */
+.news-block{background:linear-gradient(135deg,#1a1e2b,#161b22);border:1px solid var(--border);
+  border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:13px;line-height:1.8}
+.news-block .ntitle{font-weight:700;font-size:14px;color:var(--yellow);margin-bottom:8px}
+.news-body{color:var(--text)}
+.news-body .cat{display:inline;font-weight:700;margin-right:2px;color:var(--yellow)}
+.news-item{margin-bottom:8px;line-height:1.7}
 .news-item:nth-child(n+4){display:none}
-.news-toggle{text-align:center;color:#f59e0b;font-size:12px;cursor:pointer;padding:8px 0 2px;border-top:1px solid #2a2f3a;margin-top:8px}
-.news-toggle:hover{color:#fbbf24}
-.bond-up{background:#dc2626;color:#fff;font-weight:700;text-align:center}
-.bond-down{background:#16a34a;color:#fff;font-weight:700;text-align:center}
-.bond-flat{background:#374151;color:#9ca3af;text-align:center}
-.heat-table td{padding:8px 12px;min-width:42px}
-.egg-card{background:#161b22;border:1px solid #2a2f3a;border-radius:12px;padding:14px 12px;text-align:center}
-.egg-good{border-color:#22c55e}
-.egg-bad{border-color:#ef4444}
-.egg-emoji{font-size:36px;margin-bottom:6px}
-.egg-label{font-size:12px;color:#8a93a6;margin-bottom:4px}
+.news-toggle{text-align:center;color:var(--yellow);font-size:12px;cursor:pointer;
+  padding:6px 0 0;border-top:1px solid var(--border);margin-top:8px}
+.news-toggle:hover{color:#e2b714}
+
+/* ── 章节 ── */
+section{margin-bottom:20px;background:var(--card);border:1px solid var(--border);
+  border-radius:12px;overflow:hidden}
+.sec-bar{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;cursor:pointer;user-select:none;
+  background:linear-gradient(135deg,#1a1e2b,#161b22);border-bottom:1px solid transparent;
+  transition:border-color .2s}
+.sec-bar:hover{border-bottom-color:var(--border)}
+.sec-bar.open{border-bottom-color:var(--border)}
+.sec-bar h2{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+.sec-bar h2 .icon{font-size:18px}
+.sec-arrow{font-size:12px;color:var(--muted);transition:transform .25s}
+.sec-bar.open .sec-arrow{transform:rotate(180deg)}
+.sec-body{display:none;padding:12px 16px 16px}
+.sec-body.open{display:block}
+
+/* ── 表格 ── */
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:2px}
+th,td{padding:7px 8px;text-align:left;border-bottom:1px solid var(--border);
+  vertical-align:top;white-space:nowrap}
+th{color:var(--muted);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.3px}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(88,166,255,.03)}
+.sector-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:720px){.sector-grid{grid-template-columns:1fr}}
+
+/* ── 标签 ── */
+.badge{font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;display:inline-block}
+.pos{color:var(--red)} .neg{color:var(--green)} .flat{color:var(--muted)}
+td.pos{font-weight:600} td.neg{font-weight:600}
+td.today-up{color:var(--yellow);font-weight:700}
+td.today-down{color:var(--blue);font-weight:700}
+.badge.pos{background:rgba(248,81,73,.15)} .badge.neg{background:rgba(63,185,80,.15)}
+.badge.flat{background:rgba(139,148,158,.1)}
+.ma{font-size:10px;padding:2px 5px;border-radius:4px;margin-right:3px;
+  display:inline-block;margin-bottom:2px}
+.ma.up{background:rgba(248,81,73,.12);color:var(--red)}
+.ma.down{background:rgba(63,185,80,.12);color:var(--green)}
+
+/* ── 分析 ── */
+.analysis{background:rgba(88,166,255,.04);border-left:4px solid var(--blue);
+  border-radius:0 8px 8px 0;padding:12px 14px;margin-top:12px;font-size:13px;
+  white-space:pre-line;line-height:1.75}
+
+/* ── 板块宽度 ── */
+.breadth-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin:10px 0}
+.breadth-cell{text-align:center;background:rgba(22,27,34,.6);border-radius:10px;padding:12px 8px}
+.breadth-cell .num{font-size:22px;font-weight:800;line-height:1.2}
+.breadth-cell .lbl{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* ── 债市 ── */
+.bond-up{background:#da3633;color:#fff;font-weight:700;text-align:center;border-radius:3px}
+.bond-down{background:#238636;color:#fff;font-weight:700;text-align:center;border-radius:3px}
+.bond-flat{background:#30363d;color:var(--muted);text-align:center;border-radius:3px}
+.heat-table td{padding:8px 10px;min-width:40px;text-align:center}
+.egg-card{background:rgba(22,27,34,.6);border:1px solid var(--border);border-radius:10px;
+  padding:12px 10px;text-align:center}
+.egg-good{border-color:var(--green)}
+.egg-bad{border-color:var(--red)}
+.egg-emoji{font-size:30px;margin-bottom:4px}
+.egg-label{font-size:11px;color:var(--muted);margin-bottom:4px}
 .egg-pred{font-size:14px;font-weight:700}
+
+/* ── 仓位研判 ── */
+.pos-badge{display:inline-block;padding:8px 28px;border-radius:24px;font-size:18px;font-weight:800;
+  letter-spacing:1px;margin:8px 0 14px}
+
+/* ── 安装提示 ── */
+.install-banner{display:none;background:linear-gradient(135deg,#0d2847,#1a2332);
+  border:1px solid var(--blue);border-radius:12px;padding:10px 14px;margin-bottom:14px;
+  align-items:center;justify-content:space-between;gap:10px;font-size:13px}
+.install-banner.show{display:flex}
+.install-banner .ib-text{flex:1;min-width:0;line-height:1.5}
+.install-btn{background:var(--blue);color:#fff;border:none;border-radius:8px;
+  padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;
+  -webkit-tap-highlight-color:transparent}
+.install-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:0 4px;line-height:1}
+
+/* ── 底部导航 ── */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);
+  border-top:1px solid var(--border);display:flex;z-index:1000;
+  padding-bottom:env(safe-area-inset-bottom,0)}
+.bottom-nav .tab{flex:1;text-align:center;padding:7px 4px 6px;cursor:pointer;
+  color:var(--muted);font-size:11px;transition:color .2s;border:none;background:none;
+  -webkit-tap-highlight-color:transparent;outline:none}
+.bottom-nav .tab .tb-icon{display:block;font-size:20px;margin-bottom:2px;line-height:1.2}
+.bottom-nav .tab.active{color:var(--blue)}
+
+/* ── 下拉刷新 ── */
+.pull-indicator{position:fixed;top:0;left:0;right:0;text-align:center;
+  padding:8px;color:var(--muted);font-size:12px;z-index:999;
+  background:var(--bg);transform:translateY(-100%);transition:transform .25s}
+.pull-indicator.show{transform:translateY(0)}
+.pull-indicator.loading{color:var(--blue)}
+
+/* ── 通用 ── */
+.fw{font-weight:600} .muted{color:var(--muted)}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbl-label{font-size:12px;font-weight:600;color:var(--muted);margin-top:12px;margin-bottom:4px;
+  text-transform:uppercase;letter-spacing:.5px}
+.disclaimer{color:var(--muted);font-size:11px;margin-top:32px;border-top:1px solid var(--border);
+  padding-top:14px;text-align:center}
+
+/* ── 移动端 ── */
 @media(max-width:640px){
-  body{padding:8px}
+  body{padding:8px 4px 32px}
+  .dash{grid-template-columns:repeat(2,1fr);gap:6px}
+  .dash-card{padding:10px 12px}
+  .dash-val{font-size:20px}
   h1{font-size:17px}
-  .meta{font-size:11px}
-  .sec-title{font-size:14px;margin-bottom:8px}
-  table{font-size:12px}
-  th,td{padding:6px 7px}
-  .ma{font-size:10px;padding:2px 4px}
+  section{margin-bottom:12px;border-radius:10px}
+  .sec-bar{padding:10px 14px}
+  .sec-bar h2{font-size:14px}
+  .sec-body{padding:8px 10px 12px}
+  table{font-size:11px}
+  th,td{padding:5px 6px}
   .analysis{font-size:12px;padding:10px 12px}
-  td.ma-cell{max-width:260px}
-  section{margin-bottom:20px}
-  .badge{font-size:11px}
+  .pos-badge{font-size:15px;padding:6px 20px}
+  .sector-grid{grid-template-columns:1fr}
 }
 </style></head>
 <body><div class="wrap">
 <header>
-  <h1>每日行情分析日报0725</h1>
-  <div class="meta">制作者：zhouys ｜ 生成时间：2026-07-25 10:23:11</div>
-  <div class="date-picker"><input type="date" id="archiveDate" title="切换归档日期"></div>
+  <div>
+    <h1>📈 行情日报<span>0726</span></h1>
+    <div class="meta">zhouys ｜ 2026-07-26 11:03:39 ｜ 早盘（截至 11:03）</div>
+  </div>
+  <input type="date" id="archiveDate" title="切换归档日期">
 </header>
 
-<div class="today-news" id="todayNews">
-  <div class="news-title">📰 今日要闻</div>
+<!-- ═══ 安装提示 ─══ -->
+<div class="install-banner" id="installBanner">
+  <div class="ib-text">📲 添加到主屏幕，像 App 一样使用</div>
+  <button class="install-btn" id="installBtn">立即添加</button>
+  <button class="install-close" onclick="document.getElementById('installBanner').classList.remove('show')">✕</button>
+</div>
+
+<!-- ═══ 仪表盘 ═══ -->
+<div class="dash">
+  <div class="dash-card">
+    <div class="dash-label">上证指数</div>
+    <div class="dash-val" style="color:var(--red)">3814.2 <span style="font-size:16px">-1.61%</span></div>
+    <div class="dash-sub">关键均线：跌破MA10/20/30/60/120/250</div>
+  </div>
+  <div class="dash-card highlight">
+    <div class="dash-label">仓位研判</div>
+    <div class="dash-val" style="color:#f87171">🔴 减仓回避</div>
+    <div class="dash-sub">基于收盘数据，研判下个交易日</div>
+  </div>
+  <div class="dash-card">
+    <div class="dash-label">市场宽度</div>
+    <div class="dash-val" style="color:var(--red)">🌧 偏冷</div>
+    <div class="dash-sub">上涨33.3% · 20涨/40跌/60板块</div>
+  </div>
+  <div class="dash-card">
+    <div class="dash-label">主力资金（5日）</div>
+    <div class="dash-val" style="color:var(--red)">-708<span style="font-size:14px">亿</span></div>
+    <div class="dash-sub">近5日累计净流出</div>
+  </div>
+</div>
+
+<!-- ═══ 今日要闻 ═══ -->
+<div class="news-block" id="todayNews">
+  <div class="ntitle">📰 今日要闻</div>
   <div class="news-body"><div class="news-item"><span class="cat">📋 政策：</span>证监会座谈会定调「全力维护市场平稳运行」推动中长期资金入市加强跨境风险传导政策储备；中美双方探讨推进各自300亿美元规模对等降税框架安排广泛征求意见；央行7月24日开展5000亿元MLF操作加量续作1000亿元为连续3个月加量；上海出台直接融资「20条」扩大科创板第五套上市标准探索合格天使投资人认定；国务院印发全民健身计划(2026-2030)部署10方面任务；美国宣布对60个经济体征收10%-12.5%关税石油天然气化肥食品获豁免于7月24日生效；《可再生能源发展十五五规划》发布2030年风光总装机28亿千瓦总投资超5万亿；《中医药振兴发展十五五规划》提出2030年人人享有中医药服务</div><div class="news-item"><span class="cat">💰 资金：</span>央行7月24日5000亿MLF落地加量续作1000亿连续3月加量；央行逆回购2040亿净回笼4220亿流动性依旧宽松隔夜回购利率继续回落；公募基金资产总规模39.67万亿元再创新高债基+4394亿驱动；南向资金净卖出42.26亿港元；浙江部分地方银行下调存款利率传闻引发债市波动（非全面降息仅针对特定银行自律上限调整）；中国银行间债市整体弱势超长期国债坚挺30年期主力合约涨0.2%；美债收益率集体上涨10年期升3.86基点至4.691%</div><div class="news-item"><span class="cat">📊 宏观：</span>上半年我国新设外资企业增5.3%引资额4021.4亿元高技术产业引资增33.2%占比升至42.4%6月实际使用外资同比增15.1%；美国初请失业金骤降2.2万至18.7万远低于预期21.2万续请179.6万低于预期；韩国Q2 GDP同比增3.7%环比增0.6%均超预期出口为主要拉动力；欧洲央行如期按兵不动密切关注能源价格冲击官员已做好9月加息准备；欧盟就第21轮对俄制裁达成一致为四年来规模最大制裁218实体或个人；美军恢复对伊朗海上封锁已迫使12艘商船改变航向；乌克兰总统称俄乌美三方会晤预计秋季前举行；中国数学家王虹邓煜获菲尔兹奖为中国人首次</div><div class="news-item"><span class="cat">🏭 产业：</span>可再生能源十五五规划：2030年风光总装机28亿千瓦以上发电总装机35亿千瓦产业总投资超5万亿；中医药十五五规划部署十方面27项重点举措37个工程项目；上半年造船三大指标再创新高手持订单+54.9%新接订单+173.1%超历史全年峰值；中国脑机接口重大突破首次实现跨地域上千人同步脑电采集神经大模型训练迈出关键一步；北京新增10类智能家居纳入以旧换新补贴含智能门锁扫地机具身智能机器人等</div><div class="news-item"><span class="cat">🌍 国际：</span>美股三大股指全线收跌道指跌0.97%标普500跌1.21%纳指跌2.15%特斯拉大跌超14%谷歌跌超7%市值跌破4万亿；欧洲三大股指全线下跌DAX跌1.56%CAC40跌1.64%富时100跌0.73%；韩国综指续涨4.4%报7096.89点日经涨0.46%印度SENSEX跌0.47%；美众议院通过《禁止内幕交易法案》限制国会议员及家属买卖股票；SEC批准纳斯达克加速清退仙股市值低于500万美元立即暂停交易；英特尔Q2营收161.3亿美元增25%业绩指引超预期；SK海力士完成265亿美元ADR发行跨市场套利空间锁死</div><div class="news-item"><span class="cat">📈 A股：</span>A股缩量整理上证+0.25%报3876.78点深证成指+0.44%创业板指+0.25%科创50重挫3.78%成交2.21万亿锂电池光伏电工电网爆发半导体集体回调；恒生指数涨1.28%报25210.81点恒生科技涨0.65%化工电气设备有色涨幅居前半导体回调；港交所上市机制优化方案近期公布拟允许保密递表放宽同股不同权限制；年内超800家A股公司实施回购合计金额超820亿江波龙佰维存储立讯精密等龙头纷纷出手；长鑫科技7月27日登陆科创板发行价8.66元/股</div><div class="news-item"><span class="cat">💼 机构：</span>DeepSeek梁文锋交流会：「克制」为核心战略只赚合理利润AGI是唯一主线未来自建大型集群对国产算力乐观认为CUDA护城河快速瓦解；AMD苏姿丰预计2030年AI加速器市场达1.4万亿美元Anthropic将使用AMD CPU和GPU；OpenAI大规模部署AMD Helios并合作开发MI500系列AI芯片；谷歌被欧盟以违反《数字市场法》罚8.9亿欧元须60天内整改；英特尔AMD就服务器CPU向中国客户寻求长期采购承诺；SK海力士崔泰源与卢素英离婚案终审分割50亿美元资产；现代汽车Q2销售额49.22万亿韩元创新高但营业利润降20.8%；BitMEX宣布关闭交易所结束11年交易业务；上海直融20条鼓励利用AI大模型智能体提升投研能力</div><div class="news-item"><span class="cat">🛢️ 商品：</span>美油暴涨6.37%至92.36美元/桶布油涨4.91%至94.61美元/桶霍尔木兹海峡曼德海峡双通道通行受阻哈萨克斯坦产量下滑加剧供应紧张；COMEX黄金跌2.40%至4052.30美元/盎司白银跌3.99%至57.90美元加息预期升温压制但中东避险买盘支撑；伦敦基本金属多数下跌伦镍涨0.35%伦铝跌0.08%伦锌跌0.32%</div><div style="margin-top:8px;font-size:11px;color:#8a93a6">⚠️ 要闻来自早间快讯，A股涨跌幅可能与最终收盘数据不同（如上证收盘跌而早间报涨）。以指数表格当日栏为准。</div></div>
   <div class="news-toggle" id="newsToggle" onclick="toggleNews()" style="display:none">展开全部 ▼</div>
 </div>
 
+<!-- ═══ 一、大盘指数 ═══ -->
 <section>
-  <div class="sec-title">一、大盘指数分析（早盘（截至 10:23））</div>
-  <div class="tbl-label">涨跌幅</div>
-  <div class="tbl-wrap">
-  <table><thead><tr>
-    <th>指数</th><th>收盘</th><th>当日</th><th>振幅</th><th>指标</th><th>2日</th><th>3日</th><th>4日</th><th>5日</th><th>近1月</th><th>近3月</th><th>近6月</th><th>近1年</th><th>本月</th><th>今年</th>
-  </tr></thead>
-  <tbody>
+  <div class="sec-bar open" onclick="toggleSection(this)"><h2><span class="icon">📊</span>一、大盘指数分析</h2><span class="sec-arrow">▼</span></div>
+  <div class="sec-body open">
+    <div class="tbl-label">涨跌幅</div>
+    <div class="tbl-wrap"><table><thead><tr>
+      <th>指数</th><th>收盘</th><th>当日</th><th>振幅</th><th>指标</th><th>2日</th><th>3日</th><th>4日</th><th>5日</th><th>近1月</th><th>近3月</th><th>近6月</th><th>近1年</th><th>本月</th><th>今年</th>
+    </tr></thead><tbody>
         <tr>
           <td class="fw">上证指数</td>
           <td class="fw">3814.2</td>
@@ -259,9 +386,9 @@ td.today-down{color:#60a5fa;font-weight:700}
           <td class="neg">-3.52%</td>
           <td class="neg">-1.62%</td>
           <td class="neg">-1.62%</td>
-          <td class="neg">-4.46%</td>
+          <td class="neg">-3.4%</td>
           <td class="pos">3.02%</td>
-          <td class="pos">9.85%</td>
+          <td class="pos">9.39%</td>
           <td class="pos">20.87%</td>
           <td class="neg">-5.64%</td>
           <td class="pos">11.40%</td>
@@ -276,33 +403,25 @@ td.today-down{color:#60a5fa;font-weight:700}
           <td class="neg">-1.29%</td>
           <td class="neg">-0.61%</td>
           <td class="neg">-0.61%</td>
-          <td class="pos">0.74%</td>
+          <td class="pos">0.79%</td>
           <td class="pos">3.45%</td>
-          <td class="pos">7.18%</td>
+          <td class="pos">6.64%</td>
           <td class="pos">16.02%</td>
           <td class="neg">-0.95%</td>
           <td class="pos">8.28%</td>
-        </tr></tbody></table>
-  </div>
-  <div class="tbl-label">均线状态</div>
-  <div class="tbl-wrap">
-  <table><thead><tr>
-    <th>指数</th><th>MA5</th><th>MA10</th><th>MA20</th><th>MA30</th><th>MA60</th><th>MA120</th><th>MA250</th>
-  </tr></thead>
-  <tbody><tr><td class='fw'>上证指数</td><td class="today-down">3843.732(-29.532) 今日跌破</td><td class="neg">3870.172(-55.972) 跌破</td><td class="neg">3954.506(-140.306) 跌破</td><td class="neg">4001.2083(-187.0083) 跌破</td><td class="neg">4055.2402(-241.0402) 跌破</td><td class="neg">4054.3567(-240.1568) 跌破</td><td class="neg">3954.3348(-140.1348) 跌破</td></tr><tr><td class='fw'>深证成指</td><td class="today-down">13966.79(-192.11) 今日跌破</td><td class="neg">14225.66(-450.98) 跌破</td><td class="neg">14875.878(-1101.198) 跌破</td><td class="neg">15200.11(-1425.43) 跌破</td><td class="neg">15346.3003(-1571.6203) 跌破</td><td class="neg">14773.3792(-998.6992) 跌破</td><td class="pos">13751.4201(+23.2599) 站上</td></tr><tr><td class='fw'>创业板指</td><td class="today-down">3550.438(-69.568) 今日跌破</td><td class="neg">3625.264(-144.394) 跌破</td><td class="neg">3833.8495(-352.9795) 跌破</td><td class="neg">3947.7483(-466.8783) 跌破</td><td class="neg">3933.097(-452.227) 跌破</td><td class="neg">3643.0953(-162.2253) 跌破</td><td class="pos">3287.6216(+193.2484) 站上</td></tr><tr><td class='fw'>科创50</td><td class="neg">1811.764(-24.564) 跌破</td><td class="neg">1854.942(-67.742) 跌破</td><td class="neg">1963.1975(-175.9975) 跌破</td><td class="neg">1937.981(-150.781) 跌破</td><td class="neg">1823.4818(-36.2818) 跌破</td><td class="pos">1615.0457(+172.1543) 站上</td><td class="pos">1456.6136(+330.5864) 站上</td></tr><tr><td class='fw'>沪深300</td><td class="today-down">4686.396(-37.206) 今日跌破</td><td class="today-down">4693.817(-44.627) 今日跌破</td><td class="neg">4775.243(-126.053) 跌破</td><td class="neg">4824.7167(-175.5267) 跌破</td><td class="neg">4843.2383(-194.0483) 跌破</td><td class="neg">4746.1301(-96.9401) 跌破</td><td class="pos">4615.0728(+34.1172) 站上</td></tr><tr><td class='fw'>中证500</td><td class="today-down">7646.118(-113.418) 今日跌破</td><td class="neg">7826.167(-293.467) 跌破</td><td class="neg">8264.4605(-731.7605) 跌破</td><td class="neg">8388.407(-855.707) 跌破</td><td class="neg">8428.9078(-896.2078) 跌破</td><td class="neg">8293.1491(-760.4491) 跌破</td><td class="today-down">7668.207(-135.507) 今日跌破</td></tr><tr><td class='fw'>北证50</td><td class="today-down">1061.086(-29.366) 今日跌破</td><td class="neg">1089.522(-57.802) 跌破</td><td class="neg">1164.7745(-133.0545) 跌破</td><td class="neg">1200.5773(-168.8573) 跌破</td><td class="neg">1264.0473(-232.3273) 跌破</td><td class="neg">1337.3774(-305.6574) 跌破</td><td class="neg">1419.809(-388.089) 跌破</td></tr><tr><td class='fw'>恒生指数</td><td class="today-down">25068.408(-105.178) 今日跌破</td><td class="pos">24814.843(+148.387) 站上</td><td class="pos">24132.551(+830.679) 站上</td><td class="pos">24092.863(+870.367) 站上</td><td class="pos">24887.1028(+76.1272) 站上</td><td class="neg">25499.2069(-535.9769) 跌破</td><td class="neg">25715.1368(-751.9068) 跌破</td></tr><tr><td class='fw'>恒生科技指数</td><td class="neg">4712.64(-83.13) 跌破</td><td class="neg">4711.719(-82.209) 跌破</td><td class="pos">4621.1905(+8.3195) 站上</td><td class="pos">4610.5323(+18.9777) 站上</td><td class="neg">4774.8225(-145.3125) 跌破</td><td class="neg">4941.889(-312.379) 跌破</td><td class="neg">5383.7978(-754.2878) 跌破</td></tr><tr><td class='fw'>纳斯达克100</td><td class="neg">28665.82(-537.48) 跌破</td><td class="neg">29215.94(-1087.6) 跌破</td><td class="neg">29519.69(-1391.35) 跌破</td><td class="neg">29255.74(-1127.4) 跌破</td><td class="pos">27183.56(+944.78) 站上</td><td class="pos">25877.8(+2250.54) 站上</td><td class="muted">数据不足</td></tr><tr><td class='fw'>标普500</td><td class="neg">7457.23(-45.25) 跌破</td><td class="neg">7462.57(-50.59) 跌破</td><td class="neg">7471.74(-59.76) 跌破</td><td class="neg">7434.89(-22.91) 跌破</td><td class="pos">7131.65(+280.33) 站上</td><td class="pos">6882.44(+529.54) 站上</td><td class="muted">数据不足</td></tr></tbody></table>
-  </div>
-  <div class="tbl-label">成交金额</div>
-  <div class="tbl-wrap">
-  <table><thead><tr>
-    <th>指数</th><th>07-24</th><th>07-23</th><th>07-22</th><th>07-21</th><th>07-20</th>
-  </tr></thead>
-  <tbody><tr><td class='fw'>上证指数</td><td class="muted">9153.66亿</td><td class="muted">1.03万亿</td><td class="muted">1.26万亿</td><td class="muted">1.40万亿</td><td class="muted">1.29万亿</td></tr><tr><td class='fw'>深证成指</td><td class="muted">1.02万亿</td><td class="muted">1.17万亿</td><td class="muted">1.40万亿</td><td class="muted">1.56万亿</td><td class="muted">1.41万亿</td></tr><tr><td class='fw'>创业板指</td><td class="muted">4492.92亿</td><td class="muted">5187.41亿</td><td class="muted">6422.72亿</td><td class="muted">7450.92亿</td><td class="muted">6746.30亿</td></tr><tr><td class='fw'>科创50</td><td class="muted">1205.45亿</td><td class="muted">1391.87亿</td><td class="muted">1929.17亿</td><td class="muted">2130.55亿</td><td class="muted">1837.49亿</td></tr><tr><td class='fw'>沪深300</td><td class="muted">6263.79亿</td><td class="muted">7418.19亿</td><td class="muted">9215.19亿</td><td class="muted">1.02万亿</td><td class="muted">9334.03亿</td></tr><tr><td class='fw'>中证500</td><td class="muted">4020.09亿</td><td class="muted">4530.37亿</td><td class="muted">5690.80亿</td><td class="muted">6069.55亿</td><td class="muted">5376.30亿</td></tr><tr><td class='fw'>北证50</td><td class="muted">135.38亿</td><td class="muted">144.81亿</td><td class="muted">154.74亿</td><td class="muted">172.99亿</td><td class="muted">161.61亿</td></tr><tr><td class='fw'>恒生指数</td><td class="muted">2098.70亿</td><td class="muted">2334.80亿</td><td class="muted">3127.60亿</td><td class="muted">2899.40亿</td><td class="muted">3064.10亿</td></tr><tr><td class='fw'>恒生科技指数</td><td class="muted">579.80亿</td><td class="muted">583.40亿</td><td class="muted">998.60亿</td><td class="muted">882.50亿</td><td class="muted">856.40亿</td></tr><tr><td class='fw' style='color:#fbbf24'>全A股合计</td><td class="fw" style="color:#fbbf24">1.94万亿</td><td class="fw" style="color:#fbbf24">2.21万亿</td><td class="fw" style="color:#fbbf24">2.67万亿</td><td class="fw" style="color:#fbbf24">2.97万亿</td><td class="fw" style="color:#fbbf24">2.72万亿</td></tr></tbody></table>
-  </div>
-  <div class="analysis">【分析】一、量价量化分析（早盘（截至 10:23））
+        </tr></tbody></table></div>
+    <div class="tbl-label">均线状态</div>
+    <div class="tbl-wrap"><table><thead><tr>
+      <th>指数</th><th>MA5</th><th>MA10</th><th>MA20</th><th>MA30</th><th>MA60</th><th>MA120</th><th>MA250</th>
+    </tr></thead><tbody><tr><td class='fw'>上证指数</td><td class="today-down">3843.732(-29.532) 今日跌破</td><td class="neg">3870.172(-55.972) 跌破</td><td class="neg">3954.506(-140.306) 跌破</td><td class="neg">4001.2083(-187.0083) 跌破</td><td class="neg">4055.2402(-241.0402) 跌破</td><td class="neg">4054.3567(-240.1568) 跌破</td><td class="neg">3954.3348(-140.1348) 跌破</td></tr><tr><td class='fw'>深证成指</td><td class="today-down">13966.79(-192.11) 今日跌破</td><td class="neg">14225.66(-450.98) 跌破</td><td class="neg">14875.878(-1101.198) 跌破</td><td class="neg">15200.11(-1425.43) 跌破</td><td class="neg">15346.3003(-1571.6203) 跌破</td><td class="neg">14773.3792(-998.6992) 跌破</td><td class="pos">13751.4201(+23.2599) 站上</td></tr><tr><td class='fw'>创业板指</td><td class="today-down">3550.438(-69.568) 今日跌破</td><td class="neg">3625.264(-144.394) 跌破</td><td class="neg">3833.8495(-352.9795) 跌破</td><td class="neg">3947.7483(-466.8783) 跌破</td><td class="neg">3933.097(-452.227) 跌破</td><td class="neg">3643.0953(-162.2253) 跌破</td><td class="pos">3287.6216(+193.2484) 站上</td></tr><tr><td class='fw'>科创50</td><td class="neg">1811.764(-24.564) 跌破</td><td class="neg">1854.942(-67.742) 跌破</td><td class="neg">1963.1975(-175.9975) 跌破</td><td class="neg">1937.981(-150.781) 跌破</td><td class="neg">1823.4818(-36.2818) 跌破</td><td class="pos">1615.0457(+172.1543) 站上</td><td class="pos">1456.6136(+330.5864) 站上</td></tr><tr><td class='fw'>沪深300</td><td class="today-down">4686.396(-37.206) 今日跌破</td><td class="today-down">4693.817(-44.627) 今日跌破</td><td class="neg">4775.243(-126.053) 跌破</td><td class="neg">4824.7167(-175.5267) 跌破</td><td class="neg">4843.2383(-194.0483) 跌破</td><td class="neg">4746.1301(-96.9401) 跌破</td><td class="pos">4615.0728(+34.1172) 站上</td></tr><tr><td class='fw'>中证500</td><td class="today-down">7646.118(-113.418) 今日跌破</td><td class="neg">7826.167(-293.467) 跌破</td><td class="neg">8264.4605(-731.7605) 跌破</td><td class="neg">8388.407(-855.707) 跌破</td><td class="neg">8428.9078(-896.2078) 跌破</td><td class="neg">8293.1491(-760.4491) 跌破</td><td class="today-down">7668.207(-135.507) 今日跌破</td></tr><tr><td class='fw'>北证50</td><td class="today-down">1061.086(-29.366) 今日跌破</td><td class="neg">1089.522(-57.802) 跌破</td><td class="neg">1164.7745(-133.0545) 跌破</td><td class="neg">1200.5773(-168.8573) 跌破</td><td class="neg">1264.0473(-232.3273) 跌破</td><td class="neg">1337.3774(-305.6574) 跌破</td><td class="neg">1419.809(-388.089) 跌破</td></tr><tr><td class='fw'>恒生指数</td><td class="today-down">25068.408(-105.178) 今日跌破</td><td class="pos">24814.843(+148.387) 站上</td><td class="pos">24132.551(+830.679) 站上</td><td class="pos">24092.863(+870.367) 站上</td><td class="pos">24887.1028(+76.1272) 站上</td><td class="neg">25499.2069(-535.9769) 跌破</td><td class="neg">25715.1368(-751.9068) 跌破</td></tr><tr><td class='fw'>恒生科技指数</td><td class="neg">4712.64(-83.13) 跌破</td><td class="neg">4711.719(-82.209) 跌破</td><td class="pos">4621.1905(+8.3195) 站上</td><td class="pos">4610.5323(+18.9777) 站上</td><td class="neg">4774.8225(-145.3125) 跌破</td><td class="neg">4941.889(-312.379) 跌破</td><td class="neg">5383.7978(-754.2878) 跌破</td></tr><tr><td class='fw'>纳斯达克100</td><td class="neg">28665.82(-537.48) 跌破</td><td class="neg">29215.94(-1087.6) 跌破</td><td class="neg">29519.69(-1391.35) 跌破</td><td class="neg">29255.74(-1127.4) 跌破</td><td class="pos">27183.56(+944.78) 站上</td><td class="pos">25877.8(+2250.54) 站上</td><td class="muted">数据不足</td></tr><tr><td class='fw'>标普500</td><td class="neg">7457.23(-45.25) 跌破</td><td class="neg">7462.57(-50.59) 跌破</td><td class="neg">7471.74(-59.76) 跌破</td><td class="neg">7434.89(-22.91) 跌破</td><td class="pos">7131.65(+280.33) 站上</td><td class="pos">6882.44(+529.54) 站上</td><td class="muted">数据不足</td></tr></tbody></table></div>
+    <div class="tbl-label">成交金额</div>
+    <div class="tbl-wrap"><table><thead><tr><th>指数</th><th>07-24</th><th>07-23</th><th>07-22</th><th>07-21</th><th>07-20</th></tr></thead><tbody><tr><td class='fw'>上证指数</td><td class="muted">9153.66亿</td><td class="muted">1.03万亿</td><td class="muted">1.26万亿</td><td class="muted">1.40万亿</td><td class="muted">1.29万亿</td></tr><tr><td class='fw'>深证成指</td><td class="muted">1.02万亿</td><td class="muted">1.17万亿</td><td class="muted">1.40万亿</td><td class="muted">1.56万亿</td><td class="muted">1.41万亿</td></tr><tr><td class='fw'>创业板指</td><td class="muted">4492.92亿</td><td class="muted">5187.41亿</td><td class="muted">6422.72亿</td><td class="muted">7450.92亿</td><td class="muted">6746.30亿</td></tr><tr><td class='fw'>科创50</td><td class="muted">1205.45亿</td><td class="muted">1391.87亿</td><td class="muted">1929.17亿</td><td class="muted">2130.55亿</td><td class="muted">1837.49亿</td></tr><tr><td class='fw'>沪深300</td><td class="muted">6263.79亿</td><td class="muted">7418.19亿</td><td class="muted">9215.19亿</td><td class="muted">1.02万亿</td><td class="muted">9334.03亿</td></tr><tr><td class='fw'>中证500</td><td class="muted">4020.09亿</td><td class="muted">4530.37亿</td><td class="muted">5690.80亿</td><td class="muted">6069.55亿</td><td class="muted">5376.30亿</td></tr><tr><td class='fw'>北证50</td><td class="muted">135.38亿</td><td class="muted">144.81亿</td><td class="muted">154.74亿</td><td class="muted">172.99亿</td><td class="muted">161.61亿</td></tr><tr><td class='fw'>恒生指数</td><td class="muted">2098.70亿</td><td class="muted">2334.80亿</td><td class="muted">3127.60亿</td><td class="muted">2899.40亿</td><td class="muted">3064.10亿</td></tr><tr><td class='fw'>恒生科技指数</td><td class="muted">579.80亿</td><td class="muted">583.40亿</td><td class="muted">998.60亿</td><td class="muted">882.50亿</td><td class="muted">856.40亿</td></tr><tr><td class='fw' style='color:#fbbf24'>全A股合计</td><td class="fw" style="color:#fbbf24">1.94万亿</td><td class="fw" style="color:#fbbf24">2.21万亿</td><td class="fw" style="color:#fbbf24">2.67万亿</td><td class="fw" style="color:#fbbf24">2.97万亿</td><td class="fw" style="color:#fbbf24">2.72万亿</td></tr></tbody></table></div>
+    <div class="analysis">一、量价量化分析（早盘（截至 11:03））
 关键均线：MA5跌破、MA10跌破、MA20跌破、MA60跌破。MA10跌破，需放量站稳2天以上方确认反转。
 年线乖离-3.5%，偏弱，接近年线支撑。
-成交9153.66亿，日均量比(5日)0.78倍（公式：当日÷近5日均值），20日量比0.78倍。
-【判定】缩量至0.78倍，交投清淡，不满足放量企稳。
+开盘低开0.60%。
+盘中较今开-1.02%，卖压较重。
+盘量比0.78（缩量）。
 ⚠️ 5日指数极差8.3%（科创50 vs 北证50），资金高度集中，弱势指数存补跌风险。
 
 二、政策面联动
@@ -337,52 +456,45 @@ td.today-down{color:#60a5fa;font-weight:700}
 七、综合结论
 本分析基于量价技术面数据+当日政策要闻+MACD/RSI/布林带指标，未含完整基本面佐证，结论仅辅助参考。
 技术指标暂未发出明确转向信号，当前缩量修复中（量比0.78），未满足有效放量上涨标准。
-反转三要素：①全A成交连续2天≥3.06万亿（=20日均量×1.3，动态浮动） ②上证放量站稳MA10≥2天且收实体阳线 ③附加确认：板块上涨占比≥45%（当前33.3%❌不满足）+主力非持续流出（当前❌持续流出中）。
+反转三要素：①全A成交连续2天≥1.80万亿（=20日均量×1.3，动态浮动） ②上证放量站稳MA10≥2天且收实体阳线 ③附加确认：板块上涨占比≥45%（当前33.3%❌不满足）+主力非持续流出（当前❌持续流出中）。
 
 情景预案：
 🟢 放量反弹（量比≥1.5+站上MA5）：可试探性加仓至激进7成/稳健5成/保守4成，方向优选率先放量板块。
 🟡 缩量震荡（量比0.8-1.5+窄幅波动）：维持防御仓位（激进6成/稳健4成/保守3成），关注MA5支撑力度。
 🔴 继续阴跌（量比<0.8+破MA5）：降至保守仓位（激进4成/稳健3成/保守2成以下），等待放量止跌信号再回补。</div>
+  </div>
 </section>
 
 <section>
-  <div class="sec-title">💰 主力资金流向（上证指数）</div>
+  <div class="sec-bar" onclick="toggleSection(this)"><h2><span class="icon">💰</span>主力资金流向（上证指数）</h2><span class="sec-arrow">▼</span></div>
+  <div class="sec-body">
   <div class="tbl-wrap">
   <table><thead><tr><th>日期</th><th>主力净流入</th><th>超大单</th><th>大单</th></tr></thead>
-  <tbody><tr><td class="fw">2026-07-25</td><td class="neg">-370.2亿</td><td class="neg">-281.4亿</td><td class="neg">-281.4亿</td></tr><tr><td class="fw">2026-07-24</td><td class="neg">-370.2亿</td><td class="neg">-281.4亿</td><td class="neg">-88.8亿</td></tr><tr><td class="fw">2026-07-23</td><td class="neg">-86.1亿</td><td class="neg">-78.8亿</td><td class="neg">-7.3亿</td></tr><tr><td class="fw">2026-07-22</td><td class="neg">-7.0亿</td><td class="pos">+5.8亿</td><td class="neg">-12.8亿</td></tr><tr><td class="fw">2026-07-21</td><td class="pos">+125.8亿</td><td class="pos">+171.2亿</td><td class="neg">-45.3亿</td></tr></tbody></table>
+  <tbody><tr><td class="fw">2026-07-26</td><td class="neg">-370.2亿</td><td class="neg">-281.4亿</td><td class="neg">-281.4亿</td></tr><tr><td class="fw">2026-07-24</td><td class="neg">-370.2亿</td><td class="neg">-281.4亿</td><td class="neg">-88.8亿</td></tr><tr><td class="fw">2026-07-23</td><td class="neg">-86.1亿</td><td class="neg">-78.8亿</td><td class="neg">-7.3亿</td></tr><tr><td class="fw">2026-07-22</td><td class="neg">-7.0亿</td><td class="pos">+5.8亿</td><td class="neg">-12.8亿</td></tr><tr><td class="fw">2026-07-21</td><td class="pos">+125.8亿</td><td class="pos">+171.2亿</td><td class="neg">-45.3亿</td></tr></tbody></table>
   </div>
   <div class="analysis">【分析】近5日主力累计净流入：-707.6亿
 其中超大单累计：-464.6亿
-🔴 07-25：主力流出370.2亿（超大281.4亿 大单281.4亿）
+🔴 07-26：主力流出370.2亿（超大281.4亿 大单281.4亿）
 🔴 07-24：主力流出370.2亿（超大281.4亿 大单88.8亿）
 🔴 07-23：主力流出86.1亿（超大78.8亿 大单7.3亿）
 🔴 07-22：主力流出7.0亿（超大5.8亿 大单12.8亿）
 🟢 07-21：主力流入125.8亿（超大171.2亿 大单45.3亿）
 【判定】主力资金持续大幅流出，短线回避为主，等待企稳信号。
 📉 资金集中流出：芯片产业链(-1.41%)、电子Ⅰ(-1.36%)、国企改革(-2.74%)，放量下跌表明主力在减仓或调仓。</div>
+  </div>
 </section>
 
+<!-- ═══ 二、板块排名 ═══ -->
 <section>
-  <div class="sec-title">二、板块排名</div>
-  <div class="sector-grid">
-    <div class="tbl-wrap">
-      <table><thead><tr><th>涨幅榜 Top5</th><th>涨跌幅</th><th>领涨股</th><th>涨跌</th></tr></thead>
-      <tbody><tr><td>半导体设备Ⅲ</td><td class="pos">3.05%</td><td>托伦斯</td><td class="pos">20.00%</td></tr><tr><td>中兵系</td><td class="pos">2.66%</td><td>华强科技</td><td class="pos">14.81%</td></tr><tr><td>地面兵装Ⅱ</td><td class="pos">2.10%</td><td>长城军工</td><td class="pos">9.99%</td></tr><tr><td>地面兵装Ⅲ</td><td class="pos">2.10%</td><td>长城军工</td><td class="pos">9.99%</td></tr><tr><td>集成电路封测Ⅲ</td><td class="pos">1.73%</td><td>华岭股份</td><td class="pos">12.65%</td></tr></tbody></table>
+  <div class="sec-bar" onclick="toggleSection(this)"><h2><span class="icon">🏗</span>二、板块排名</h2><span class="sec-arrow">▼</span></div>
+  <div class="sec-body">
+    <div class="sector-grid">
+      <div class="tbl-wrap"><table><thead><tr><th>涨幅榜 Top5</th><th>涨跌幅</th><th>领涨股</th><th>涨跌</th></tr></thead><tbody><tr><td>半导体设备Ⅲ</td><td class="pos">3.05%</td><td>托伦斯</td><td class="pos">20.00%</td></tr><tr><td>中兵系</td><td class="pos">2.66%</td><td>华强科技</td><td class="pos">14.81%</td></tr><tr><td>地面兵装Ⅱ</td><td class="pos">2.10%</td><td>长城军工</td><td class="pos">9.99%</td></tr><tr><td>地面兵装Ⅲ</td><td class="pos">2.10%</td><td>长城军工</td><td class="pos">9.99%</td></tr><tr><td>集成电路封测Ⅲ</td><td class="pos">1.73%</td><td>华岭股份</td><td class="pos">12.65%</td></tr></tbody></table></div>
+      <div class="tbl-wrap"><table><thead><tr><th>跌幅榜 Top5</th><th>涨跌幅</th><th>领涨股</th><th>涨跌</th></tr></thead><tbody><tr><td>白银Ⅲ</td><td class="neg">-7.33%</td><td>湖南白银</td><td class="neg">-7.33%</td></tr><tr><td>钼Ⅲ</td><td class="neg">-6.35%</td><td>国城矿业</td><td class="neg">-5.13%</td></tr><tr><td>火力发电Ⅲ</td><td class="neg">-6.17%</td><td>浙能电力</td><td class="neg">-1.65%</td></tr><tr><td>贵金属Ⅱ</td><td class="neg">-6.13%</td><td>山金国际</td><td class="neg">-4.43%</td></tr><tr><td>医美耗材Ⅲ</td><td class="neg">-6.12%</td><td>华熙生物</td><td class="neg">-5.14%</td></tr></tbody></table></div>
+      <div class="tbl-wrap"><table><thead><tr><th>资金成交 Top5</th><th>成交额</th></tr></thead><tbody><tr><td>芯片产业链</td><td>6538.32亿</td></tr><tr><td>电子Ⅰ</td><td>5770.67亿</td></tr><tr><td>国企改革</td><td>5746.61亿</td></tr><tr><td>业绩超预期</td><td>5499.23亿</td></tr><tr><td>华为产业链</td><td>3914.70亿</td></tr></tbody></table></div>
+      <div class="tbl-wrap"><table><thead><tr><th>5日涨幅榜 Top5</th><th>当日</th><th>5日</th><th>20日</th></tr></thead><tbody><tr><td>钾肥Ⅲ</td><td class="neg">-4.86%</td><td class="pos">12.47%</td><td class="pos">7.44%</td></tr><tr><td>地面兵装Ⅲ</td><td class="pos">2.10%</td><td class="pos">10.10%</td><td class="neg">-4.14%</td></tr><tr><td>地面兵装Ⅱ</td><td class="pos">2.10%</td><td class="pos">10.10%</td><td class="neg">-4.14%</td></tr><tr><td>黄金Ⅲ</td><td class="neg">-6.01%</td><td class="pos">9.86%</td><td class="pos">8.39%</td></tr><tr><td>油气及炼化工程Ⅲ</td><td class="neg">-3.88%</td><td class="pos">9.62%</td><td class="pos">11.84%</td></tr></tbody></table></div>
     </div>
-    <div class="tbl-wrap">
-      <table><thead><tr><th>跌幅榜 Top5</th><th>涨跌幅</th><th>领涨股</th><th>涨跌</th></tr></thead>
-      <tbody><tr><td>白银Ⅲ</td><td class="neg">-7.33%</td><td>湖南白银</td><td class="neg">-7.33%</td></tr><tr><td>钼Ⅲ</td><td class="neg">-6.35%</td><td>国城矿业</td><td class="neg">-5.13%</td></tr><tr><td>火力发电Ⅲ</td><td class="neg">-6.17%</td><td>浙能电力</td><td class="neg">-1.65%</td></tr><tr><td>贵金属Ⅱ</td><td class="neg">-6.13%</td><td>山金国际</td><td class="neg">-4.43%</td></tr><tr><td>医美耗材Ⅲ</td><td class="neg">-6.12%</td><td>华熙生物</td><td class="neg">-5.14%</td></tr></tbody></table>
-    </div>
-    <div class="tbl-wrap">
-      <table><thead><tr><th>资金成交 Top5</th><th>成交额</th></tr></thead>
-      <tbody><tr><td>芯片产业链</td><td>6538.32亿</td></tr><tr><td>电子Ⅰ</td><td>5770.67亿</td></tr><tr><td>国企改革</td><td>5746.61亿</td></tr><tr><td>业绩超预期</td><td>5499.23亿</td></tr><tr><td>华为产业链</td><td>3914.70亿</td></tr></tbody></table>
-    </div>
-    <div class="tbl-wrap">
-      <table><thead><tr><th>5日涨幅榜 Top5</th><th>当日</th><th>5日</th><th>20日</th></tr></thead>
-      <tbody><tr><td>钾肥Ⅲ</td><td class="neg">-4.86%</td><td class="pos">12.47%</td><td class="pos">7.44%</td></tr><tr><td>地面兵装Ⅲ</td><td class="pos">2.10%</td><td class="pos">10.10%</td><td class="neg">-4.14%</td></tr><tr><td>地面兵装Ⅱ</td><td class="pos">2.10%</td><td class="pos">10.10%</td><td class="neg">-4.14%</td></tr><tr><td>黄金Ⅲ</td><td class="neg">-6.01%</td><td class="pos">9.86%</td><td class="pos">8.39%</td></tr><tr><td>油气及炼化工程Ⅲ</td><td class="neg">-3.88%</td><td class="pos">9.62%</td><td class="pos">11.84%</td></tr></tbody></table>
-    </div>
-  </div>
-  <div class="analysis">【分析】一、当日涨跌与持续性
+    <div class="analysis">一、当日涨跌与持续性
 【一日脉冲】半导体设备Ⅲ +3.05%
 判定：未入5日涨幅榜，一日游风险较高，需次日验证——若次日继续放量领涨则可确认短线持续性。
 【一日脉冲】中兵系 +2.66%
@@ -402,8 +514,8 @@ td.today-down{color:#60a5fa;font-weight:700}
 四、资金流向与板块位置判断
 成交第一：芯片产业链（6538.32亿）。
 成交第一但跌-1.4%，放量下跌，需警惕资金出货。</div>
-  <section>
-  <div class="sec-title">📊 板块宽度</div>
+    <div style="margin-top:14px">
+  <div class="tbl-label" style="font-size:14px;color:var(--text)">📊 板块宽度</div>
   <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:10px">
     <div style="flex:1;min-width:120px;text-align:center;background:#161b22;border-radius:10px;padding:12px">
       <div style="font-size:24px;font-weight:700;color:#f87171">🟢 20</div>
@@ -424,19 +536,20 @@ td.today-down{color:#60a5fa;font-weight:700}
   </div>
   <div class="analysis">【分析】全市场60个板块中：上涨20个(33.3%) / 下跌40个(66.7%)
 【情绪】多数板块下跌，防御性板块相对抗跌。</div>
+</div>
+  </div>
 </section>
-</section>
 
 
 
+<!-- ═══ 三、ETF/个股 ═══ -->
 <section>
-  <div class="sec-title">三、个股/ETF</div>
-  <div class="tbl-label">涨跌幅</div>
-  <div class="tbl-wrap">
-  <table><thead><tr>
-    <th>ETF/个股</th><th>收盘</th><th>当日</th><th>换手率</th><th>PE</th><th>指标</th><th>2日</th><th>3日</th><th>4日</th><th>5日</th><th>近1月</th><th>近3月</th><th>近6月</th><th>近1年</th><th>本月</th><th>今年</th>
-  </tr></thead>
-  <tbody>
+  <div class="sec-bar" onclick="toggleSection(this)"><h2><span class="icon">🎯</span>三、个股/ETF</h2><span class="sec-arrow">▼</span></div>
+  <div class="sec-body">
+    <div class="tbl-label">涨跌幅</div>
+    <div class="tbl-wrap"><table><thead><tr>
+      <th>ETF/个股</th><th>收盘</th><th>当日</th><th>换手率</th><th>PE</th><th>指标</th><th>2日</th><th>3日</th><th>4日</th><th>5日</th><th>近1月</th><th>近3月</th><th>近6月</th><th>近1年</th><th>本月</th><th>今年</th>
+    </tr></thead><tbody>
         <tr>
           <td class="fw">中证500ETF(159922)</td>
           <td class="fw">3.056</td>
@@ -662,12 +775,12 @@ td.today-down{color:#60a5fa;font-weight:700}
           <td class="muted" style="white-space:nowrap"><span class="badge flat" title="MACD空头">M→</span><span class="badge flat" title="RSI(38.1)">38</span><span class="badge flat" title="布林偏下">B→</span></td>
           <td class="neg">-0.05%</td>
           <td class="pos">0.04%</td>
-          <td class="pos">0.05%</td>
+          <td class="pos">0.04%</td>
           <td class="neg">-0.09%</td>
           <td class="neg">-0.49%</td>
           <td class="neg">-0.87%</td>
           <td class="neg">-2.29%</td>
-          <td class="neg">-5.81%</td>
+          <td class="neg">-5.70%</td>
           <td class="neg">-0.29%</td>
           <td class="neg">-2.94%</td>
         </tr>
@@ -688,23 +801,14 @@ td.today-down{color:#60a5fa;font-weight:700}
           <td class="flat"></td>
           <td class="flat"></td>
           <td class="flat"></td>
-        </tr></tbody></table>
-  </div>
-  <div class="tbl-label">均线状态</div>
-  <div class="tbl-wrap">
-  <table><thead><tr>
-    <th>ETF</th><th>MA5</th><th>MA10</th><th>MA20</th><th>MA30</th><th>MA60</th><th>MA120</th><th>MA250</th>
-  </tr></thead>
-  <tbody><tr><td class='fw'>中证500ETF</td><td class="today-down">3.1012(-0.0452) 今日跌破</td><td class="neg">3.1725(-0.1165) 跌破</td><td class="neg">3.3494(-0.2934) 跌破</td><td class="neg">3.3967(-0.3407) 跌破</td><td class="neg">3.3991(-0.3431) 跌破</td><td class="neg">3.3352(-0.2792) 跌破</td><td class="today-down">3.0752(-0.0192) 今日跌破</td></tr><tr><td class='fw'>人工智能ETF</td><td class="today-down">1.9338(-0.0398) 今日跌破</td><td class="neg">1.9634(-0.0694) 跌破</td><td class="neg">2.0301(-0.1361) 跌破</td><td class="neg">2.034(-0.14) 跌破</td><td class="neg">1.9872(-0.0932) 跌破</td><td class="pos">1.785(+0.109) 站上</td><td class="pos">1.585(+0.309) 站上</td></tr><tr><td class='fw'>沪深300ETF</td><td class="today-down">4.9444(-0.0434) 今日跌破</td><td class="today-down">4.9514(-0.0504) 今日跌破</td><td class="neg">5.029(-0.128) 跌破</td><td class="neg">5.0741(-0.1731) 跌破</td><td class="neg">5.0811(-0.1801) 跌破</td><td class="today-down">4.9679(-0.0669) 今日跌破</td><td class="pos">4.8125(+0.0885) 站上</td></tr><tr><td class='fw'>银行ETF</td><td class="pos">0.8008(+0.0032) 站上</td><td class="pos">0.7925(+0.0115) 站上</td><td class="pos">0.7729(+0.0311) 站上</td><td class="pos">0.7742(+0.0298) 站上</td><td class="pos">0.7782(+0.0258) 站上</td><td class="pos">0.7833(+0.0207) 站上</td><td class="neg">0.8074(-0.0034) 跌破</td></tr><tr><td class='fw'>证券ETF</td><td class="today-down">1.1164(-0.0174) 今日跌破</td><td class="today-down">1.1124(-0.0134) 今日跌破</td><td class="today-down">1.1245(-0.0255) 今日跌破</td><td class="today-down">1.115(-0.016) 今日跌破</td><td class="pos">1.0828(+0.0162) 站上</td><td class="pos">1.0985(+0.0005) 站上</td><td class="neg">1.1689(-0.0699) 跌破</td></tr><tr><td class='fw'>芯片ETF</td><td class="pos">1.2064(+0.0036) 站上</td><td class="neg">1.2528(-0.0428) 跌破</td><td class="neg">1.3623(-0.1523) 跌破</td><td class="neg">1.3448(-0.1348) 跌破</td><td class="neg">1.2317(-0.0217) 跌破</td><td class="pos">1.0499(+0.1601) 站上</td><td class="pos">0.9007(+0.3093) 站上</td></tr><tr><td class='fw'>通信ETF</td><td class="today-down">0.6668(-0.0208) 今日跌破</td><td class="neg">0.7002(-0.0542) 跌破</td><td class="neg">0.7528(-0.1068) 跌破</td><td class="neg">0.797(-0.151) 跌破</td><td class="neg">0.781(-0.135) 跌破</td><td class="today-down">0.6714(-0.0254) 今日跌破</td><td class="pos">0.5435(+0.1025) 站上</td></tr><tr><td class='fw'>半导体ETF</td><td class="pos">1.111(+0.002) 站上</td><td class="neg">1.1616(-0.0486) 跌破</td><td class="neg">1.2788(-0.1658) 跌破</td><td class="neg">1.2642(-0.1512) 跌破</td><td class="neg">1.1512(-0.0382) 跌破</td><td class="pos">0.973(+0.14) 站上</td><td class="pos">0.8251(+0.2879) 站上</td></tr><tr><td class='fw'>电网设备ETF</td><td class="today-down">1.6008(-0.0018) 今日跌破</td><td class="today-down">1.6321(-0.0331) 今日跌破</td><td class="neg">1.7785(-0.1795) 跌破</td><td class="neg">1.8997(-0.3007) 跌破</td><td class="neg">1.9806(-0.3816) 跌破</td><td class="neg">1.938(-0.339) 跌破</td><td class="today-down">1.6378(-0.0388) 今日跌破</td></tr><tr><td class='fw'>招商银行</td><td class="pos">38.744(+0.456) 站上</td><td class="pos">38.16(+1.04) 站上</td><td class="pos">37.0755(+2.1245) 站上</td><td class="pos">36.93(+2.27) 站上</td><td class="pos">36.9403(+2.2597) 站上</td><td class="pos">37.5732(+1.6268) 站上</td><td class="today-up">39.0994(+0.1006) 今日站上</td></tr><tr><td class='fw'>平安银行</td><td class="pos">10.996(+0.104) 站上</td><td class="pos">10.86(+0.24) 站上</td><td class="pos">10.6065(+0.4935) 站上</td><td class="pos">10.6397(+0.4603) 站上</td><td class="pos">10.6655(+0.4345) 站上</td><td class="pos">10.638(+0.462) 站上</td><td class="pos">10.9682(+0.1318) 站上</td></tr><tr><td class='fw'>赛力斯</td><td class="today-down">55.562(-1.232) 今日跌破</td><td class="today-down">55.166(-0.836) 今日跌破</td><td class="neg">57.671(-3.341) 跌破</td><td class="neg">60.0873(-5.7573) 跌破</td><td class="neg">70.8137(-16.4837) 跌破</td><td class="neg">84.9087(-30.5787) 跌破</td><td class="neg">110.5185(-56.1885) 跌破</td></tr><tr><td class='fw'>美元离岸人民币</td><td class="today-down">6.7725(-0.0009) 今日跌破</td><td class="today-down">6.7742(-0.0026) 今日跌破</td><td class="neg">6.784(-0.0124) 跌破</td><td class="neg">6.7842(-0.0126) 跌破</td><td class="neg">6.7871(-0.0155) 跌破</td><td class="neg">6.83(-0.0584) 跌破</td><td class="neg">6.9591(-0.1875) 跌破</td></tr><tr><td class='fw'>黄金9999</td><td class="neg">887.66(-12.01) 跌破</td><td class="muted">数据不足</td><td class="muted">数据不足</td><td class="muted">数据不足</td><td class="muted">数据不足</td><td class="muted">数据不足</td><td class="muted">数据不足</td></tr></tbody></table>
-  </div>
-  <div class="tbl-label">成交金额</div>
-  <div class="tbl-wrap">
-  <table><thead><tr>
-    <th>ETF</th><th>07-24</th><th>07-23</th><th>07-22</th><th>07-21</th><th>07-20</th>
-  </tr></thead>
-  <tbody><tr><td class='fw'>中证500ETF</td><td class="muted">9.54亿</td><td class="muted">3.72亿</td><td class="muted">8.81亿</td><td class="muted">16.65亿</td><td class="muted">20.32亿</td></tr><tr><td class='fw'>人工智能ETF</td><td class="muted">5.40亿</td><td class="muted">6.39亿</td><td class="muted">8.78亿</td><td class="muted">12.26亿</td><td class="muted">9.62亿</td></tr><tr><td class='fw'>沪深300ETF</td><td class="muted">10.95亿</td><td class="muted">5.98亿</td><td class="muted">9.25亿</td><td class="muted">20.69亿</td><td class="muted">16.99亿</td></tr><tr><td class='fw'>银行ETF</td><td class="muted">11.69亿</td><td class="muted">11.41亿</td><td class="muted">9.42亿</td><td class="muted">15.42亿</td><td class="muted">9.91亿</td></tr><tr><td class='fw'>证券ETF</td><td class="muted">24.58亿</td><td class="muted">24.53亿</td><td class="muted">23.09亿</td><td class="muted">29.57亿</td><td class="muted">30.06亿</td></tr><tr><td class='fw'>芯片ETF</td><td class="muted">6.52亿</td><td class="muted">6.10亿</td><td class="muted">9.09亿</td><td class="muted">8.84亿</td><td class="muted">6.28亿</td></tr><tr><td class='fw'>通信ETF</td><td class="muted">29.54亿</td><td class="muted">35.59亿</td><td class="muted">60.15亿</td><td class="muted">75.90亿</td><td class="muted">55.58亿</td></tr><tr><td class='fw'>半导体ETF</td><td class="muted">18.07亿</td><td class="muted">20.60亿</td><td class="muted">26.88亿</td><td class="muted">28.39亿</td><td class="muted">21.12亿</td></tr><tr><td class='fw'>电网设备ETF</td><td class="muted">12.32亿</td><td class="muted">16.38亿</td><td class="muted">6.40亿</td><td class="muted">8.64亿</td><td class="muted">7.17亿</td></tr><tr><td class='fw'>招商银行</td><td class="muted">38.46亿</td><td class="muted">30.88亿</td><td class="muted">41.46亿</td><td class="muted">60.19亿</td><td class="muted">55.34亿</td></tr><tr><td class='fw'>平安银行</td><td class="muted">12.69亿</td><td class="muted">12.11亿</td><td class="muted">11.20亿</td><td class="muted">19.25亿</td><td class="muted">17.13亿</td></tr><tr><td class='fw'>赛力斯</td><td class="muted">9.81亿</td><td class="muted">9.47亿</td><td class="muted">12.99亿</td><td class="muted">14.80亿</td><td class="muted">14.60亿</td></tr><tr><td class='fw'>美元离岸人民币</td><td class="muted">0.0万</td><td class="muted">0.0万</td><td class="muted">0.0万</td><td class="muted">0.0万</td><td class="muted">0.0万</td></tr><tr><td class='fw'>黄金9999</td></tr></tbody></table>
-  </div>
-  <div class="analysis">【分析】一、ETF量价信号
+        </tr></tbody></table></div>
+    <div class="tbl-label">均线状态</div>
+    <div class="tbl-wrap"><table><thead><tr>
+      <th>ETF</th><th>MA5</th><th>MA10</th><th>MA20</th><th>MA30</th><th>MA60</th><th>MA120</th><th>MA250</th>
+    </tr></thead><tbody><tr><td class='fw'>中证500ETF</td><td class="today-down">3.1012(-0.0452) 今日跌破</td><td class="neg">3.1725(-0.1165) 跌破</td><td class="neg">3.3494(-0.2934) 跌破</td><td class="neg">3.3967(-0.3407) 跌破</td><td class="neg">3.3991(-0.3431) 跌破</td><td class="neg">3.3352(-0.2792) 跌破</td><td class="today-down">3.0752(-0.0192) 今日跌破</td></tr><tr><td class='fw'>人工智能ETF</td><td class="today-down">1.9338(-0.0398) 今日跌破</td><td class="neg">1.9634(-0.0694) 跌破</td><td class="neg">2.0301(-0.1361) 跌破</td><td class="neg">2.034(-0.14) 跌破</td><td class="neg">1.9872(-0.0932) 跌破</td><td class="pos">1.785(+0.109) 站上</td><td class="pos">1.585(+0.309) 站上</td></tr><tr><td class='fw'>沪深300ETF</td><td class="today-down">4.9444(-0.0434) 今日跌破</td><td class="today-down">4.9514(-0.0504) 今日跌破</td><td class="neg">5.029(-0.128) 跌破</td><td class="neg">5.0741(-0.1731) 跌破</td><td class="neg">5.0811(-0.1801) 跌破</td><td class="today-down">4.9679(-0.0669) 今日跌破</td><td class="pos">4.8125(+0.0885) 站上</td></tr><tr><td class='fw'>银行ETF</td><td class="pos">0.8008(+0.0032) 站上</td><td class="pos">0.7925(+0.0115) 站上</td><td class="pos">0.7729(+0.0311) 站上</td><td class="pos">0.7742(+0.0298) 站上</td><td class="pos">0.7782(+0.0258) 站上</td><td class="pos">0.7833(+0.0207) 站上</td><td class="neg">0.8074(-0.0034) 跌破</td></tr><tr><td class='fw'>证券ETF</td><td class="today-down">1.1164(-0.0174) 今日跌破</td><td class="today-down">1.1124(-0.0134) 今日跌破</td><td class="today-down">1.1245(-0.0255) 今日跌破</td><td class="today-down">1.115(-0.016) 今日跌破</td><td class="pos">1.0828(+0.0162) 站上</td><td class="pos">1.0985(+0.0005) 站上</td><td class="neg">1.1689(-0.0699) 跌破</td></tr><tr><td class='fw'>芯片ETF</td><td class="pos">1.2064(+0.0036) 站上</td><td class="neg">1.2528(-0.0428) 跌破</td><td class="neg">1.3623(-0.1523) 跌破</td><td class="neg">1.3448(-0.1348) 跌破</td><td class="neg">1.2317(-0.0217) 跌破</td><td class="pos">1.0499(+0.1601) 站上</td><td class="pos">0.9007(+0.3093) 站上</td></tr><tr><td class='fw'>通信ETF</td><td class="today-down">0.6668(-0.0208) 今日跌破</td><td class="neg">0.7002(-0.0542) 跌破</td><td class="neg">0.7528(-0.1068) 跌破</td><td class="neg">0.797(-0.151) 跌破</td><td class="neg">0.781(-0.135) 跌破</td><td class="today-down">0.6714(-0.0254) 今日跌破</td><td class="pos">0.5435(+0.1025) 站上</td></tr><tr><td class='fw'>半导体ETF</td><td class="pos">1.111(+0.002) 站上</td><td class="neg">1.1616(-0.0486) 跌破</td><td class="neg">1.2788(-0.1658) 跌破</td><td class="neg">1.2642(-0.1512) 跌破</td><td class="neg">1.1512(-0.0382) 跌破</td><td class="pos">0.973(+0.14) 站上</td><td class="pos">0.8251(+0.2879) 站上</td></tr><tr><td class='fw'>电网设备ETF</td><td class="today-down">1.6008(-0.0018) 今日跌破</td><td class="today-down">1.6321(-0.0331) 今日跌破</td><td class="neg">1.7785(-0.1795) 跌破</td><td class="neg">1.8997(-0.3007) 跌破</td><td class="neg">1.9806(-0.3816) 跌破</td><td class="neg">1.938(-0.339) 跌破</td><td class="today-down">1.6378(-0.0388) 今日跌破</td></tr><tr><td class='fw'>招商银行</td><td class="pos">38.744(+0.456) 站上</td><td class="pos">38.16(+1.04) 站上</td><td class="pos">37.0755(+2.1245) 站上</td><td class="pos">36.93(+2.27) 站上</td><td class="pos">36.9403(+2.2597) 站上</td><td class="pos">37.5732(+1.6268) 站上</td><td class="today-up">39.0994(+0.1006) 今日站上</td></tr><tr><td class='fw'>平安银行</td><td class="pos">10.996(+0.104) 站上</td><td class="pos">10.86(+0.24) 站上</td><td class="pos">10.6065(+0.4935) 站上</td><td class="pos">10.6397(+0.4603) 站上</td><td class="pos">10.6655(+0.4345) 站上</td><td class="pos">10.638(+0.462) 站上</td><td class="pos">10.9682(+0.1318) 站上</td></tr><tr><td class='fw'>赛力斯</td><td class="today-down">55.562(-1.232) 今日跌破</td><td class="today-down">55.166(-0.836) 今日跌破</td><td class="neg">57.671(-3.341) 跌破</td><td class="neg">60.0873(-5.7573) 跌破</td><td class="neg">70.8137(-16.4837) 跌破</td><td class="neg">84.9087(-30.5787) 跌破</td><td class="neg">110.5185(-56.1885) 跌破</td></tr><tr><td class='fw'>美元离岸人民币</td><td class="today-down">6.7725(-0.0009) 今日跌破</td><td class="today-down">6.7742(-0.0026) 今日跌破</td><td class="neg">6.784(-0.0124) 跌破</td><td class="neg">6.7842(-0.0126) 跌破</td><td class="neg">6.7871(-0.0155) 跌破</td><td class="neg">6.83(-0.0584) 跌破</td><td class="neg">6.9591(-0.1875) 跌破</td></tr><tr><td class='fw'>黄金9999</td><td class="neg">887.66(-12.01) 跌破</td><td class="muted">数据不足</td><td class="muted">数据不足</td><td class="muted">数据不足</td><td class="muted">数据不足</td><td class="muted">数据不足</td><td class="muted">数据不足</td></tr></tbody></table></div>
+    <div class="tbl-label">成交金额</div>
+    <div class="tbl-wrap"><table><thead><tr><th>ETF</th><th>07-24</th><th>07-23</th><th>07-22</th><th>07-21</th><th>07-20</th></tr></thead><tbody><tr><td class='fw'>中证500ETF</td><td class="muted">9.54亿</td><td class="muted">3.72亿</td><td class="muted">8.81亿</td><td class="muted">16.65亿</td><td class="muted">20.32亿</td></tr><tr><td class='fw'>人工智能ETF</td><td class="muted">5.40亿</td><td class="muted">6.39亿</td><td class="muted">8.78亿</td><td class="muted">12.26亿</td><td class="muted">9.62亿</td></tr><tr><td class='fw'>沪深300ETF</td><td class="muted">10.95亿</td><td class="muted">5.98亿</td><td class="muted">9.25亿</td><td class="muted">20.69亿</td><td class="muted">16.99亿</td></tr><tr><td class='fw'>银行ETF</td><td class="muted">11.69亿</td><td class="muted">11.41亿</td><td class="muted">9.42亿</td><td class="muted">15.42亿</td><td class="muted">9.91亿</td></tr><tr><td class='fw'>证券ETF</td><td class="muted">24.58亿</td><td class="muted">24.53亿</td><td class="muted">23.09亿</td><td class="muted">29.57亿</td><td class="muted">30.06亿</td></tr><tr><td class='fw'>芯片ETF</td><td class="muted">6.52亿</td><td class="muted">6.10亿</td><td class="muted">9.09亿</td><td class="muted">8.84亿</td><td class="muted">6.28亿</td></tr><tr><td class='fw'>通信ETF</td><td class="muted">29.54亿</td><td class="muted">35.59亿</td><td class="muted">60.15亿</td><td class="muted">75.90亿</td><td class="muted">55.58亿</td></tr><tr><td class='fw'>半导体ETF</td><td class="muted">18.07亿</td><td class="muted">20.60亿</td><td class="muted">26.88亿</td><td class="muted">28.39亿</td><td class="muted">21.12亿</td></tr><tr><td class='fw'>电网设备ETF</td><td class="muted">12.32亿</td><td class="muted">16.38亿</td><td class="muted">6.40亿</td><td class="muted">8.64亿</td><td class="muted">7.17亿</td></tr><tr><td class='fw'>招商银行</td><td class="muted">38.46亿</td><td class="muted">30.88亿</td><td class="muted">41.46亿</td><td class="muted">60.19亿</td><td class="muted">55.34亿</td></tr><tr><td class='fw'>平安银行</td><td class="muted">12.69亿</td><td class="muted">12.11亿</td><td class="muted">11.20亿</td><td class="muted">19.25亿</td><td class="muted">17.13亿</td></tr><tr><td class='fw'>赛力斯</td><td class="muted">9.81亿</td><td class="muted">9.47亿</td><td class="muted">12.99亿</td><td class="muted">14.80亿</td><td class="muted">14.60亿</td></tr><tr><td class='fw'>美元离岸人民币</td><td class="muted">0.0万</td><td class="muted">0.0万</td><td class="muted">0.0万</td><td class="muted">0.0万</td><td class="muted">0.0万</td></tr><tr><td class='fw'>黄金9999</td></tr></tbody></table></div>
+    <div class="analysis">一、ETF量价信号
 📈 多头（1只）：银行ETF——均线形态偏多，放量后可确认加仓。
 📌 修复中（2只）：芯片ETF、半导体ETF——仅站MA5，等MA20确认。
 ⛔ 空头（6只）——均线走弱，不抄底。
@@ -725,10 +829,13 @@ td.today-down{color:#60a5fa;font-weight:700}
 中证500ETF：MACD处于多头区间，DIF在DEA上方运行，趋势偏强。RSI报27.8偏低，进入超卖区域，急跌后技术性反弹概率在增加。价格在布林带中轨下方运行（位置14%），趋势偏弱，带宽24.1%。
 人工智能ETF：MACD刚刚形成金叉（DIF=-0.1上穿DEA=-0.1），这是短线看多信号，但需次日确认有效性。RSI报43.0偏弱，空头占主导，但尚未到极端超卖水平。价格在布林带中轨下方运行（位置17%），趋势偏弱，带宽20.2%。
 沪深300ETF：MACD刚刚形成金叉（DIF=0.0上穿DEA=0.0），这是短线看多信号，但需次日确认有效性。RSI报41.2偏弱，空头占主导，但尚未到极端超卖水平。价格在布林带中轨下方运行（位置20%），趋势偏弱，带宽8.6%。</div>
+  </div>
 </section>
 
+
 <section>
-  <div class="sec-title">四、基金</div>
+  <div class="sec-bar" onclick="toggleSection(this)"><h2><span class="icon">💼</span>四、基金</h2><span class="sec-arrow">▼</span></div>
+  <div class="sec-body">
   <div class="tbl-label">涨跌幅</div>
   <div class="tbl-wrap">
   <table><thead><tr>
@@ -927,10 +1034,13 @@ td.today-down{color:#60a5fa;font-weight:700}
 【📈 正常配置】债基底仓4-5成。
 今日MLF操作落地，若净投放→资金面宽松利好债市；若净回笼→短期承压。关注后续央行操作节奏。
 央行逆回购操作持续，短端流动性充裕，利好短债基金。</div>
+  </div>
 </section>
+
+<!-- ═══ 信号+仓位 ═══ -->
 <section>
-  <div class="sec-title">五、买卖信号汇总</div>
-<div class="tbl-label">📈 买入信号（4条）</div>
+  <div class="sec-bar" onclick="toggleSection(this)"><h2><span class="icon">📶</span>五、买卖信号汇总</h2><span class="sec-arrow">▼</span></div>
+  <div class="sec-body"><div class="tbl-label">📈 买入信号（4条）</div>
   <div class="tbl-wrap">
   <table><thead><tr><th>来源</th><th>品种</th><th>信号</th><th>原因与建议</th></tr></thead>
   <tbody><tr><td>个股/ETF</td><td class="fw">📈 多头（1只）</td><td class="pos">买入</td><td>📈 多头（1只）：银行ETF——均线形态偏多，放量后可确认加仓。</td></tr><tr><td>个股/ETF</td><td class="fw">📈 多头</td><td class="pos">买入</td><td>📈 多头：招商银行、平安银行——沿5日线持有，破10日线减半。</td></tr><tr><td>基金</td><td class="fw">📈 定投加量（2只）</td><td class="pos">买入</td><td>📈 定投加量（2只）：华泰中证红利低波联接A、天弘中证红利低波100联接A——均线多头，每月定额+回调至20日线额外加一份。</td></tr><tr><td>基金</td><td class="fw">债基底仓4-5成。</td><td class="pos">📈 正常配置</td><td>债基底仓4-5成。</td></tr></tbody></table>
@@ -938,10 +1048,12 @@ td.today-down{color:#60a5fa;font-weight:700}
   <div class="tbl-wrap">
   <table><thead><tr><th>来源</th><th>品种</th><th>信号</th><th>原因与建议</th></tr></thead>
   <tbody><tr><td>大盘指数</td><td class="fw">📉 跌幅较大</td><td class="neg">卖出</td><td>📉 跌幅较大：深证成指(-2.47%)、创业板指(-2.65%)、中证500(-2.61%)、北证50(-4.03%)。短期超卖，关注是否缩量止跌。</td></tr></tbody></table>
-  </div>
+  </div></div>
 </section>
+
 <section>
-  <div class="sec-title">六、仓位研判</div>
+  <div class="sec-bar open" onclick="toggleSection(this)"><h2><span class="icon">🎯</span>六、仓位研判</h2><span class="sec-arrow">▼</span></div>
+  <div class="sec-body open">
   <div style="text-align:center;margin:8px 0 14px">
     <span style="display:inline-block;background:#2a0a0a;color:#f87171;border:1px solid #f87171;border-radius:20px;padding:6px 24px;font-size:16px;font-weight:700">
       减仓回避
@@ -983,22 +1095,49 @@ td.today-down{color:#60a5fa;font-weight:700}
 <div style='font-weight:700;font-size:14px;margin:10px 0 6px'>五、尾部说明</div>
 <div style='padding:2px 0'>以上仅基于当日收盘数据客观推演，不构成任何投资、加仓操作建议，市场存在突发波动风险。</div>
   </div>
+  </div>
 </section>
+
+<!-- ═══ 下拉刷新指示器 ═══ -->
+<div class="pull-indicator" id="pullIndicator">↓ 下拉刷新</div>
+
+<!-- ═══ 底部导航 ═══ -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="tab active" data-tab="dash">
+    <span class="tb-icon">📊</span>概览
+  </button>
+  <button class="tab" data-tab="market">
+    <span class="tb-icon">📈</span>大盘
+  </button>
+  <button class="tab" data-tab="sector">
+    <span class="tb-icon">🏗</span>板块
+  </button>
+  <button class="tab" data-tab="position">
+    <span class="tb-icon">🎯</span>仓位
+  </button>
+</nav>
+
+<div class="disclaimer">📌 本报告由自动化系统生成，基于量价技术面+政策要闻数据，不构成投资建议。</div>
  </div>
+
 <script>
+// ── 章节折叠 ──
+function toggleSection(bar){var body=bar.nextElementSibling;var open=body.classList.contains('open');
+  if(open){body.classList.remove('open');bar.classList.remove('open')}
+  else{body.classList.add('open');bar.classList.add('open')}}
+
+// ── 归档切换 ──
 (function(){
   var inp=document.getElementById('archiveDate');
-  var today='2026-07-25';
-  inp.value=today;
-  var realToday=new Date().toISOString().split('T')[0];
-  inp.max=realToday;
+  var today='2026-07-26';inp.value=today;
+  inp.max=new Date().toISOString().split('T')[0];
   inp.addEventListener('change',function(){
-    var d=inp.value;
-    if(!d)return;
-    if(d===realToday){location.href='./index.html';}
-    else{location.href='./'+d+'.html';}
+    var d=inp.value;if(!d)return;
+    location.href=d===inp.max?'./index.html':'./'+d+'.html';
   });
 })();
+
+// ── 要闻展开 ──
 function toggleNews(){
   var items=document.querySelectorAll('.news-item');
   var btn=document.getElementById('newsToggle');
@@ -1012,9 +1151,99 @@ function toggleNews(){
   }
 }
 document.addEventListener('DOMContentLoaded',function(){
-  if(document.querySelectorAll('.news-item').length>3){
+  if(document.querySelectorAll('.news-item').length>3)
     document.getElementById('newsToggle').style.display='block';
-  }
 });
+
+// ── Tab 导航分配 ──
+function initTabs(){
+  var sections=document.querySelectorAll('section');
+  sections.forEach(function(sec){
+    var h2=sec.querySelector('h2');
+    if(!h2)return;
+    var t=h2.textContent;
+    if(t.indexOf('大盘指数')>=0||t.indexOf('主力资金')>=0)sec.setAttribute('data-tab','market');
+    else if(t.indexOf('板块')>=0||t.indexOf('涨幅榜')>=0||t.indexOf('板块宽度')>=0)sec.setAttribute('data-tab','sector');
+    else if(t.indexOf('仓位')>=0||t.indexOf('买卖信号')>=0)sec.setAttribute('data-tab','position');
+  });
+}
+
+// ── Tab 切换 ──
+function switchTab(tab){
+  document.querySelectorAll('.bottom-nav .tab').forEach(function(t){t.classList.remove('active')});
+  var btn=document.querySelector('.bottom-nav .tab[data-tab="'+tab+'"]');
+  if(btn)btn.classList.add('active');
+
+  var dash=document.querySelector('.dash');
+  var news=document.querySelector('.news-block');
+  var sections=document.querySelectorAll('section');
+
+  if(tab==='dash'){
+    if(dash)dash.style.display='';
+    if(news)news.style.display='';
+    sections.forEach(function(s){s.style.display='';});
+    window.scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+
+  if(dash)dash.style.display='none';
+  if(news)news.style.display='none';
+  sections.forEach(function(s){
+    if(s.getAttribute('data-tab')===tab)s.style.display='';
+    else s.style.display='none';
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── 下拉刷新 ──
+(function(){
+  var ind=document.getElementById('pullIndicator');
+  var startY=0, pulling=false, threshold=60;
+  document.addEventListener('touchstart',function(e){if(window.scrollY===0){startY=e.touches[0].clientY;pulling=true;}});
+  document.addEventListener('touchmove',function(e){
+    if(!pulling)return;
+    var dy=e.touches[0].clientY-startY;
+    if(dy>0){e.preventDefault();ind.classList.toggle('show',dy>20);
+      ind.textContent=dy>threshold?'↓ 松手刷新':'↓ 下拉刷新';}
+  },{passive:false});
+  document.addEventListener('touchend',function(){
+    if(!pulling)return;pulling=false;
+    var dy=(event.changedTouches?event.changedTouches[0].clientY:0)-startY;
+    if(dy>threshold){
+      ind.classList.add('loading');ind.textContent='⟳ 正在刷新…';
+      setTimeout(function(){location.reload();},300);
+    }else{ind.classList.remove('show');ind.textContent='↓ 下拉刷新';}
+  });
+})();
+
+// ── PWA 安装提示 ──
+(function(){
+  var deferredPrompt;
+  window.addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault();deferredPrompt=e;
+    if(!window.matchMedia('(display-mode:standalone)').matches)
+      document.getElementById('installBanner').classList.add('show');
+  });
+  document.getElementById('installBtn').addEventListener('click',function(){
+    if(deferredPrompt){deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function(r){
+        document.getElementById('installBanner').classList.remove('show');
+      });
+    }
+  });
+  window.addEventListener('appinstalled',function(){
+    document.getElementById('installBanner').classList.remove('show');
+  });
+})();
+
+// ── 初始化 ──
+document.addEventListener('DOMContentLoaded',function(){
+  initTabs();
+});
+
+// ── PWA Service Worker ──
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(function(){});
+}
 </script>
 </body></html>
